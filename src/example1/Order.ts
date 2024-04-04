@@ -1,5 +1,5 @@
-import { ProductDTO } from "./CatalogGateway";
 import Item from "./Item";
+import Product from "./Product";
 
 export default class Order {
 	items: Item[];
@@ -8,7 +8,7 @@ export default class Order {
 		this.items = [];
 	}
 
-	addProduct (product: ProductDTO, quantity: number) {
+	addProduct (product: Product, quantity: number) {
 		this.items.push(new Item(product.productId, product.price, quantity));
 	}
 

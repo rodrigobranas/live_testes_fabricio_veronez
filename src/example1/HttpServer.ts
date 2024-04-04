@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import Hapi from "@hapi/hapi";
 
 export default interface HttpServer {
 	register (method: string, url: string, callback: Function): void;
@@ -11,6 +10,7 @@ export class ExpressAdapter implements HttpServer {
 
 	constructor () {
 		this.app = express();
+		this.app.use(express.json());
 	}
 
 	register(method: string, url: string, callback: Function): void {
@@ -24,29 +24,4 @@ export class ExpressAdapter implements HttpServer {
 		this.app.listen(port);
 	}
 	
-}
-
-export class HapiAdapter implements HttpServer {
-	server: Hapi.Server;
-
-	constructor () {
-		this.server = Hapi.server({});
-	}
-
-	register(method: string, url: string, callback: Function): void {
-		this.server.route({
-			method,
-			path: url.replace(/\:/g, ""),
-			handler: async function (request: any, reply: any) {
-				const output = await callback(request.params, request.body);
-				return output;
-			}
-		});
-	}
-
-	listen(port: number): void {
-		this.server.settings.port = port;
-		this.server.start();
-	}
-
 }
