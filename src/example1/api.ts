@@ -1,8 +1,8 @@
 import CalculateOrder from "./CalculateOrder";
 import { ExpressAdapter } from "./HttpServer";
-import { ProductRepositoryMemory } from "./ProductRepository";
+import { ProductRepositoryDatabase, ProductRepositoryMemory } from "./ProductRepository";
 
-const productRepository = new ProductRepositoryMemory();
+const productRepository = new ProductRepositoryDatabase();
 const calculateOrder = new CalculateOrder(productRepository);
 const httpServer = new ExpressAdapter();
 	
